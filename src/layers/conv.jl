@@ -155,11 +155,6 @@ function Base.show(io::IO, l::Conv)
   print(io, ")")
 end
 
-(a::Conv{<:Any,<:Any,W})(x::AbstractArray{T}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  invoke(a, Tuple{AbstractArray}, x)
-
-(a::Conv{<:Any,<:Any,W})(x::AbstractArray{<:Real}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  a(T.(x))
 
 """
     outdims(l::Conv, isize::Tuple)
@@ -282,12 +277,6 @@ function Base.show(io::IO, l::ConvTranspose)
   print(io, ")")
 end
 
-(a::ConvTranspose{<:Any,<:Any,W})(x::AbstractArray{T}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  invoke(a, Tuple{AbstractArray}, x)
-
-(a::ConvTranspose{<:Any,<:Any,W})(x::AbstractArray{<:Real}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  a(T.(x))
-
 outdims(l::ConvTranspose{N}, isize) where N = _convtransoutdims(isize[1:2], size(l.weight)[1:N], l.stride, l.dilation, l.pad)
 
 function calc_padding(::Type{ConvTranspose}, pad::SamePad, k::NTuple{N,T}, dilation, stride) where {N,T}
@@ -404,12 +393,6 @@ function Base.show(io::IO, l::DepthwiseConv)
   print(io, ")")
 end
 
-(a::DepthwiseConv{<:Any,<:Any,W})(x::AbstractArray{T}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  invoke(a, Tuple{AbstractArray}, x)
-
-(a::DepthwiseConv{<:Any,<:Any,W})(x::AbstractArray{<:Real}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  a(T.(x))
-
 outdims(l::DepthwiseConv, isize) =
   output_size(DepthwiseConvDims(_paddims(isize, (1, 1, size(l.weight)[end], 1)), size(l.weight); stride = l.stride, padding = l.pad, dilation = l.dilation))
 
@@ -518,12 +501,6 @@ function Base.show(io::IO, l::CrossCor)
   l.σ == identity || print(io, ", ", l.σ)
   print(io, ")")
 end
-
-(a::CrossCor{<:Any,<:Any,W})(x::AbstractArray{T}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  invoke(a, Tuple{AbstractArray}, x)
-
-(a::CrossCor{<:Any,<:Any,W})(x::AbstractArray{<:Real}) where {T <: Union{Float32,Float64}, W <: AbstractArray{T}} =
-  a(T.(x))
 
 outdims(l::CrossCor, isize) =
   output_size(DenseConvDims(_paddims(isize, size(l.weight)), size(l.weight); stride = l.stride, padding = l.pad, dilation = l.dilation))
