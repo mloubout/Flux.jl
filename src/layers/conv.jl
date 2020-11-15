@@ -98,8 +98,7 @@ end
 
 """
     Conv(weight::AbstractArray, bias, [activation; stride, pad, dilation])
-    Conv(; weight, bias, [activation, stride, pad, dilation])
-
+    
 Constructs a convolutional layer with the given weight and bias.
 Accepts the same keywords (and has the same defaults) as the `Conv((4,4), 3=>7, relu)`
 method.
@@ -239,18 +238,12 @@ end
 
 """
     ConvTranspose(weight::AbstractArray, bias, [activation; stride, pad, dilation])
-    ConvTranspose(; weight, bias, [activation, stride, pad, dilation])
-
+    
 Constructs a layer with the given weight and bias arrays.
 Accepts the same keywords as the `ConvTranspose((4,4), 3=>7, relu)` method.
 """
-<<<<<<< HEAD
-function ConvTranspose(w::AbstractArray{T,N}, b::Union{Bool,AbstractVector{T}}, σ = identity;
-                      stride = 1, pad = 0, dilation = 1) where {T,N}
-=======
 function ConvTranspose(w::AbstractArray{T,N}, b::Union{Bool, Zeros, AbstractVector{T}}, σ=identity;
                       stride=1, pad=0, dilation=1) where {T,N}
->>>>>>> 9d885a7b (remove some useless Conv constructors)
   stride = expand(Val(N-2), stride)
   dilation = expand(Val(N-2), dilation)
   pad = calc_padding(ConvTranspose, pad, size(w)[1:N-2], dilation, stride)
@@ -349,8 +342,7 @@ end
 
 """
     DepthwiseConv(weight::AbstractArray, bias, [activation; stride, pad, dilation])
-    DepthwiseConv(; weight, bias, [activation, stride, pad, dilation])
-
+    
 Constructs a layer with the given weight and bias arrays.
 Accepts the same keywords as the `DepthwiseConv((4,4), 3=>6, relu)` method.
 """
@@ -446,8 +438,7 @@ end
 
 """
     CrossCor(weight::AbstractArray, bias, [activation; stride, pad, dilation])
-    CrossCor(; weight, bias, [activation, stride, pad, dilation])
-
+    
 Constructs a layer with the given weight and bias arrays.
 Accepts the same keywords as the `CrossCor((4,4), 3=>7, relu)` method.
 """
